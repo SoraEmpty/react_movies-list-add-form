@@ -1,10 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { TextField } from '../TextField';
 import { Movie } from '../../types/Movie';
 
-  type Props = {
-    onSubmit: (movie:Movie) => void;
-  }
+type Props = {
+  onSubmit: (movie: Movie) => void;
+};
 
 export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
   const [count, setCount] = useState(0);
@@ -15,96 +15,83 @@ export const NewMovie: React.FC<Props> = ({ onSubmit }) => {
     imdbUrl: '',
     imdbId: '',
   });
-  let { title,
-    description,
-    imgUrl,
-    imdbUrl,
-    imdbId
-  } = form;
+  const { title, description, imgUrl, imdbUrl, imdbId } = form;
 
   const handleReset = () => {
     setForm({
-    title: '',
-    description: '',
-    imgUrl: '',
-    imdbUrl: '',
-    imdbId: '',
-  });
-  }
+      title: '',
+      description: '',
+      imgUrl: '',
+      imdbUrl: '',
+      imdbId: '',
+    });
+  };
 
-    const handleSumbit = (event: React.FormEvent) => {
-      event.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
-      onSubmit({
-          title,
-          description,
-          imgUrl,
-          imdbUrl,
-          imdbId,
-      })
-      setCount(c => c + 1);
-      handleReset();
-    };
+    onSubmit({
+      title,
+      description,
+      imgUrl,
+      imdbUrl,
+      imdbId,
+    });
+    setCount(currentCount => currentCount + 1);
+    handleReset();
+  };
 
-    const isButtonDisabled = !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
-const handleChange = (field: keyof typeof form) => (value: string) => {
-  setForm(prev => ({
-    ...prev,
-    [field]: value,
-  }));
-};
-
-
+  const isButtonDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+  const handleChange = (field: keyof typeof form) => (value: string) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   return (
-    <form className="NewMovie" key={count}
-    onSubmit={handleSumbit}>
+    <form className="NewMovie" key={count} onSubmit={handleSubmit}>
       <h2 className="title">Add a movie</h2>
 
       <TextField
         name="title"
         label="Title"
         value={title}
-        onChange={
-          handleChange('title')
-        }
+        onChange={handleChange('title')}
         required
       />
 
       <TextField
-      name="description"
-      label="Description"
-      value={description}
-              onChange={
-          handleChange('description')
-        } />
+        name="description"
+        label="Description"
+        value={form.description}
+        onChange={handleChange('description')}
+      />
 
       <TextField
-      name="imgUrl"
-      label="Image URL"
-      value={imgUrl}
-              onChange={
-          handleChange('imgUrl')
-        }
-        required/>
+        name="imgUrl"
+        label="Image URL"
+        value={imgUrl}
+        onChange={handleChange('imgUrl')}
+        required
+      />
 
       <TextField
-      name="imdbUrl"
-      label="Imdb URL"
-      value={imdbUrl}
-              onChange={
-          handleChange('imdbUrl')
-        }
-        required/>
+        name="imdbUrl"
+        label="Imdb URL"
+        value={imdbUrl}
+        onChange={handleChange('imdbUrl')}
+        required
+      />
 
       <TextField
-      name="imdbId"
-      label="Imdb ID"
-      value={imdbId}
-              onChange={
-          handleChange('imdbId')
-        }
-        required/>
+        name="imdbId"
+        label="Imdb ID"
+        value={imdbId}
+        onChange={handleChange('imdbId')}
+        required
+      />
 
       <div className="field is-grouped">
         <div className="control">
